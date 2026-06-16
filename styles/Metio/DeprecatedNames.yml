@@ -1,0 +1,15 @@
+# SPDX-FileCopyrightText: The metio vale-config Authors
+# SPDX-License-Identifier: 0BSD
+#
+# Outdated repository names and miswritten project names. Uses existence (not
+# substitution) so hyphenated and multi-word patterns match the raw text.
+extends: existence
+message: "'%s' is outdated — use the current name: 'stageset-controller' / 'jaas-controller' (no 'flux-' prefix), and 'Flux' (not 'Flux CD')."
+level: error
+ignorecase: false
+nonword: true
+tokens:
+  - 'flux-stageset-controller'
+  - 'flux-jaas-controller'
+  - 'Flux ?CD'
+  - 'FluxCd'

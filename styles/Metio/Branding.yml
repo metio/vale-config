@@ -1,0 +1,13 @@
+# SPDX-FileCopyrightText: The metio vale-config Authors
+# SPDX-License-Identifier: 0BSD
+#
+# metio is a set of independent projects, not a single product. Reject prose that
+# brands them collectively or treats "metio" as an actor.
+extends: existence
+message: "Don't brand the metio projects collectively — '%s' reads as a product. They are independent projects; use neutral framing (e.g. 'related projects', 'integration with X')."
+level: error
+ignorecase: true
+nonword: true
+tokens:
+  - 'metio (stack|tools|tool ?set|toolchain|suite|platform|ecosystem|family)'
+  - 'the metio (way|answer|approach)'

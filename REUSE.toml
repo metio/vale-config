@@ -1,0 +1,9 @@
+version = 1
+
+# Vale vocabulary files are read line-by-line as terms, so they cannot carry an
+# inline comment header.
+[[annotations]]
+path = "styles/config/vocabularies/Metio/*.txt"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "The metio vale-config Authors"
+SPDX-License-Identifier = "0BSD"

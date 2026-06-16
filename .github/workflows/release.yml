@@ -1,0 +1,42 @@
+# SPDX-FileCopyrightText: The metio vale-config Authors
+# SPDX-License-Identifier: 0BSD
+
+# Builds the Vale package (Metio.zip = the contents of styles/) and publishes it
+# to a calendar-versioned GitHub release marked latest, so consuming repos can
+# pull releases/latest/download/Metio.zip. The blob is signed with cosign keyless
+# (Fulcio OIDC), matching the metio release convention.
+name: release
+on:
+  push:
+    branches: [main]
+    paths:
+      - styles/**
+      - .github/workflows/release.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+  id-token: write
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build package
+        run: |
+          ( cd styles && zip -r ../Metio.zip Metio config )
+          sha256sum Metio.zip > SHA256SUMS
+      - uses: sigstore/cosign-installer@v3
+      - name: Sign the package
+        run: cosign sign-blob --yes --bundle Metio.zip.cosign.bundle Metio.zip
+      - name: Compute version
+        id: version
+        run: echo "value=$(date +'%Y.%-m.%-d')" >> "$GITHUB_OUTPUT"
+      - uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.version.outputs.value }}
+          name: ${{ steps.version.outputs.value }}
+          make_latest: true
+          files: |
+            Metio.zip
+            SHA256SUMS
+            Metio.zip.cosign.bundle

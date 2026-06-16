@@ -1,0 +1,19 @@
+# SPDX-FileCopyrightText: The metio vale-config Authors
+# SPDX-License-Identifier: 0BSD
+#
+# Canonical spellings for single-token terms frequently written the wrong way.
+# Matches outside code spans / URLs are flagged (Vale skips those by default).
+# Multi-word and hyphenated renames live in DeprecatedNames.yml, since Vale's
+# substitution rule only matches single word tokens reliably.
+extends: substitution
+message: "Use '%s' instead of '%s'."
+level: error
+ignorecase: false
+swap:
+  'k8s': 'Kubernetes'
+  'K8s': 'Kubernetes'
+  'K8S': 'Kubernetes'
+  'Jaas': 'JaaS'
+  'JAAS': 'JaaS'
+  'Stageset': 'StageSet'
+  'JsonNet': 'Jsonnet'

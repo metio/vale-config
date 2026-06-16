@@ -1,0 +1,27 @@
+# SPDX-FileCopyrightText: The metio vale-config Authors
+# SPDX-License-Identifier: 0BSD
+#
+# Gender-neutral and inclusive language. Advisory (warning), not a hard gate —
+# some terms are contextual. Skips code spans / URLs like every Vale rule.
+extends: substitution
+message: "Prefer the inclusive '%s' over '%s'."
+level: warning
+ignorecase: true
+nonword: true
+swap:
+  'he or she': 'they'
+  's/he': 'they'
+  'he/she': 'they'
+  'his or her': 'their'
+  'his/her': 'their'
+  'manpower': 'workforce'
+  'man-hours': 'person-hours'
+  'man hours': 'person-hours'
+  'mankind': 'humankind'
+  'chairman': 'chair'
+  'policeman': 'police officer'
+  'middleman': 'intermediary'
+  'whitelist': 'allowlist'
+  'blacklist': 'denylist'
+  'master/slave': 'primary/replica'
+  'grandfathered': 'legacy / exempt'
