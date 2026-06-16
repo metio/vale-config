@@ -25,6 +25,12 @@ The `Metio` style (`styles/Metio/`) plus a shared vocabulary
 - **`Metio.Inclusive`** — gender-neutral and inclusive language (`he/she` → `they`,
   `chairman` → `chair`, `whitelist` → `allowlist`, …) at **warning** level
   (advisory, not a hard gate).
+- **`Metio.Marketing`** — flags marketing/superlative language (`seamless`,
+  `powerful`, `blazing-fast`, `world-class`, …) at **warning** level; docs describe
+  what something does, not how impressive it is.
+- **`Metio.Hedging`** — flags filler that adds no information (`simply`, `easily`,
+  `obviously`, `of course`, `it's worth noting`, …) at **warning** level.
+- **`Vale.Repetition`** (built-in) — catches doubled words (`the the`).
 - **`Vale.Terms` + the vocabulary** (`accept.txt`) — enforces the canonical casing
   of always-capitalized proper nouns (`flagger` → `Flagger`, `externalartifact` →
   `ExternalArtifact`, `Konfiguration`, `Tanka`, …). The list is deliberately scoped

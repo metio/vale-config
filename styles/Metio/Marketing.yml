@@ -1,0 +1,27 @@
+# SPDX-FileCopyrightText: The metio vale-config Authors
+# SPDX-License-Identifier: 0BSD
+#
+# Marketing / superlative language. Documentation describes what something does,
+# not how impressive it is. Advisory (warning); skips code spans and URLs.
+extends: existence
+message: "'%s' is marketing language — describe what it does, not how great it is."
+level: warning
+ignorecase: true
+tokens:
+  - 'seamless(ly)?'
+  - 'effortless(ly)?'
+  - 'blazing(ly)?'
+  - 'lightning[ -]fast'
+  - 'world[ -]class'
+  - 'cutting[ -]edge'
+  - 'state[ -]of[ -]the[ -]art'
+  - 'best[ -]in[ -]class'
+  - 'next[ -]gen(eration)?'
+  - 'turnkey'
+  - 'revolutionary'
+  - 'game[ -]chang(er|ing)'
+  - 'supercharges?'
+  - 'unleash(es|ed)?'
+  - 'powerful'
+  - 'robust'
+  - 'rich set of'

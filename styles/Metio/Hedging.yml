@@ -1,0 +1,22 @@
+# SPDX-FileCopyrightText: The metio vale-config Authors
+# SPDX-License-Identifier: 0BSD
+#
+# Filler and hedging that adds no information. State the fact directly. Advisory
+# (warning); skips code spans and URLs. Deliberately excludes high-frequency words
+# with many legitimate uses (e.g. "just", "very") to stay low-noise.
+extends: existence
+message: "'%s' is filler — cut it or state the fact directly."
+level: warning
+ignorecase: true
+tokens:
+  - 'simply'
+  - 'easily'
+  - 'obviously'
+  - 'basically'
+  - 'essentially'
+  - 'of course'
+  - 'needless to say'
+  - "it'?s worth noting( that)?"
+  - 'it should be noted'
+  - 'as you can see'
+  - 'note that,? simply'
