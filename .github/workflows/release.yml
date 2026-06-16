@@ -1,10 +1,13 @@
 # SPDX-FileCopyrightText: The metio vale-config Authors
 # SPDX-License-Identifier: 0BSD
 
-# Builds the Vale package (Metio.zip = the contents of styles/) and publishes it
-# to a calendar-versioned GitHub release marked latest, so consuming repos can
-# pull releases/latest/download/Metio.zip. The blob is signed with cosign keyless
-# (Fulcio OIDC), matching the metio release convention.
+# Builds the Vale "complete package" (Metio.zip) and publishes it to a
+# calendar-versioned GitHub release marked latest, so consuming repos pull
+# releases/latest/download/Metio.zip. A complete package is a top-level directory
+# named after the package (Metio/) holding a .vale.ini plus a styles/ StylesPath
+# (rules + config/vocabularies); `vale sync` merges that whole StylesPath, so the
+# shared vocabulary and config travel with the rules. The blob is signed with
+# cosign keyless (Fulcio OIDC), matching the metio release convention.
 name: release
 on:
   push:
@@ -21,9 +24,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Build package
+      - name: Build complete package
         run: |
-          ( cd styles && zip -r ../Metio.zip Metio config )
+          mkdir -p dist/Metio
+          cp .vale.ini dist/Metio/.vale.ini
+          cp -r styles dist/Metio/styles
+          ( cd dist && zip -r ../Metio.zip Metio )
           sha256sum Metio.zip > SHA256SUMS
       - uses: sigstore/cosign-installer@v3
       - name: Sign the package

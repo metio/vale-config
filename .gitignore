@@ -1,6 +1,7 @@
 # Vale package download target (populated by `vale sync`)
 .vale/
 # build artifacts
+dist/
 Metio.zip
 SHA256SUMS
 *.cosign.bundle

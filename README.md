@@ -25,46 +25,46 @@ The `Metio` style (`styles/Metio/`) plus a shared vocabulary
 - **`Metio.Inclusive`** — gender-neutral and inclusive language (`he/she` → `they`,
   `chairman` → `chair`, `whitelist` → `allowlist`, …) at **warning** level
   (advisory, not a hard gate).
-- **`accept.txt` / `reject.txt`** — the shared vocabulary: accepted spellings and
-  rejected terms, available to `Vale.Spelling` / `Vale.Terms` / `Vale.Avoid` when a
-  repo opts into them.
+- **`Vale.Terms` + the vocabulary** (`accept.txt`) — enforces the canonical casing
+  of always-capitalized proper nouns (`flagger` → `Flagger`, `externalartifact` →
+  `ExternalArtifact`, `Konfiguration`, `Tanka`, …). The list is deliberately scoped
+  to terms that never appear in another casing, so it adds no false positives.
 
 Vale skips code spans, code blocks, and URLs, so backticked identifiers and links
 are never flagged.
 
 ## Use it in a repo
 
-Add a `.vale.ini` that pulls the published package:
+This is a Vale **complete package** — it bundles the rules, the vocabulary, *and*
+the config. `vale sync` merges all of it, so a consuming `.vale.ini` is two lines;
+everything else (`BasedOnStyles`, `Vocab`, alert level) is inherited:
 
 ```ini
 StylesPath = .vale/styles
-MinAlertLevel = error
 Packages = https://github.com/metio/vale-config/releases/latest/download/Metio.zip
-Vocab = Metio
-
-[*.md]
-BasedOnStyles = Metio
 ```
 
 `.vale/styles/` is populated by `vale sync` and should be git-ignored. In CI, run
 the [Vale GitHub Action](https://github.com/vale-cli/vale-action) against the docs:
 
 ```yaml
-- uses: vale-cli/vale-action@reviewdog
+- uses: vale-cli/vale-action@v3 # pin to a SHA
   with:
     files: docs/content
 ```
 
-## Develop
+## Layout and releases
+
+`styles/` is the package's `StylesPath` (the `Metio/` rules and
+`config/vocabularies/Metio/`); the repo-root `.vale.ini` is both the bundled
+package config and the self-test config. `.github/workflows/release.yml` assembles
+the [complete-package](https://docs.vale.sh/keys/packages#complete) layout — a
+top-level `Metio/` directory holding `.vale.ini` + `styles/` — zips it to
+`Metio.zip`, and attaches it to a calendar-versioned GitHub release;
+`releases/latest/download/Metio.zip` always serves the newest.
 
 Lint this repo's own docs against the local styles, no download needed:
 
 ```shell
-vale --config=.vale.ini styles README.md
-# or against another repo's docs:
-vale --config=.vale.ini ../flux-stageset-controller/docs/content
+vale --config=.vale.ini README.md
 ```
-
-Releases are built by `.github/workflows/release.yml`, which zips `styles/` into
-`Metio.zip` and attaches it to a calendar-versioned GitHub release; the
-`releases/latest/download/Metio.zip` URL above always serves the newest.
