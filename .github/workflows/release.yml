@@ -1,13 +1,20 @@
 # SPDX-FileCopyrightText: The metio vale-config Authors
 # SPDX-License-Identifier: 0BSD
 
-# Builds the Vale "complete package" (Metio.zip) and publishes it to a
-# calendar-versioned GitHub release marked latest, so consuming repos pull
-# releases/latest/download/Metio.zip. A complete package is a top-level directory
-# named after the package (Metio/) holding a .vale.ini plus a styles/ StylesPath
-# (rules + config/vocabularies); `vale sync` merges that whole StylesPath, so the
-# shared vocabulary and config travel with the rules. The blob is signed with
-# cosign keyless (Fulcio OIDC), matching the metio release convention.
+# Builds the Vale "complete package" (Metio.zip) and publishes it to a GitHub
+# release marked latest, so consuming repos pull releases/latest/download/Metio.zip.
+# A complete package is a top-level directory named after the package (Metio/)
+# holding a .vale.ini plus a styles/ StylesPath (rules + config/vocabularies);
+# `vale sync` merges that whole StylesPath, so the shared vocabulary and config
+# travel with the rules. The blob is signed with cosign keyless (Fulcio OIDC),
+# matching the metio release convention.
+#
+# The version is the release date plus a +HHMMSS build-metadata suffix, with the
+# hour un-padded so the suffix never starts with a zero (e.g. 2026.6.16+93015 at
+# 09:30:15). The metio convention for repos that release on push; the time suffix
+# keeps every tag unique, so same-day re-runs don't collide with an existing
+# immutable release. Consumers track `latest`, not a pinned tag, so the exact
+# version string is cosmetic.
 name: release
 on:
   push:
@@ -36,7 +43,7 @@ jobs:
         run: cosign sign-blob --yes --bundle Metio.zip.cosign.bundle Metio.zip
       - name: Compute version
         id: version
-        run: echo "value=$(date +'%Y.%-m.%-d')" >> "$GITHUB_OUTPUT"
+        run: echo "value=$(date +'%Y.%-m.%-d+%-H%M%S')" >> "$GITHUB_OUTPUT"
       - uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.version.outputs.value }}
