@@ -77,3 +77,7 @@ Lint this repo's own docs against the local styles, no download needed:
 ```shell
 vale --config=.vale.ini README.md
 ```
+
+## License
+
+[0BSD](LICENSES/0BSD.txt).
