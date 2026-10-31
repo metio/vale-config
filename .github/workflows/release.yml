@@ -29,8 +29,9 @@ permissions:
 jobs:
   release:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - name: Build complete package
         run: |
           mkdir -p dist/Metio
@@ -38,13 +39,13 @@ jobs:
           cp -r styles dist/Metio/styles
           ( cd dist && zip -r ../Metio.zip Metio )
           sha256sum Metio.zip > SHA256SUMS
-      - uses: sigstore/cosign-installer@v3
+      - uses: sigstore/cosign-installer@398d4b0eeef1380460a10c8013a76f728fb906ac # v3
       - name: Sign the package
         run: cosign sign-blob --yes --bundle Metio.zip.cosign.bundle Metio.zip
       - name: Compute version
         id: version
         run: echo "value=$(date +'%Y.%-m.%-d+%-H%M%S')" >> "$GITHUB_OUTPUT"
-      - uses: softprops/action-gh-release@v2
+      - uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65 # v2
         with:
           tag_name: ${{ steps.version.outputs.value }}
           name: ${{ steps.version.outputs.value }}
