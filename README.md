@@ -69,8 +69,7 @@ top-level `Metio/` directory holding `.vale.ini` + `styles/` — zips it to
 `Metio.zip`, and attaches it to a GitHub release tagged `<date>+<HHMMSS>` (the
 time suffix keeps each tag unique, so same-day re-runs don't collide with an
 immutable release). Consumers track `releases/latest/download/Metio.zip`, so the
-exact version string is cosmetic. See [CONTRIBUTING.md](CONTRIBUTING.md) for the
-immutable-release / ruleset setup.
+exact version string is cosmetic.
 
 Lint this repo's own docs against the local styles, no download needed:
 
