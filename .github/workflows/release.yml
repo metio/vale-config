@@ -41,13 +41,13 @@ jobs:
           cp -r styles dist/Metio/styles
           ( cd dist && zip -r ../Metio.zip Metio )
           sha256sum Metio.zip > SHA256SUMS
-      - uses: sigstore/cosign-installer@6f9f17788090df1f26f669e9d70d6ae9567deba6 # v4.1.2
+      - uses: sigstore/cosign-installer@756fe2d284c7292c4e9b62c8a28f1e5629c59532 # v4.1.3
       - name: Sign the package
         run: cosign sign-blob --yes --bundle Metio.zip.cosign.bundle Metio.zip
       - name: Compute version
         id: version
         run: echo "value=$(date +'%Y.%-m.%-d+%-H%M%S')" >> "$GITHUB_OUTPUT"
-      - uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64 # v3
+      - uses: softprops/action-gh-release@8a0cd651e5b2365bd640854a3fa5dfc70e4875f3 # v3
         with:
           tag_name: ${{ steps.version.outputs.value }}
           name: ${{ steps.version.outputs.value }}
